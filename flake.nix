@@ -15,6 +15,7 @@
       unfree-packages =
         [ "discord" "obsidian" "vscode" "vscode-extension-mhutchie-git-graph" ];
       # users.extraGroups.docker.members = [ user.name ];
+      secrets = import ./secrets.nix { };
       darwinconf = { pkgs, lib, ... }: {
 
         # Necessary for using flakes on this system.
@@ -32,6 +33,8 @@
         homebrew = import ./homebrew.nix { inherit pkgs; };
         time.timeZone = "America/Detroit";
         security.pam.services.sudo_local.touchIdAuth = true;
+        environment.systemPackages = with pkgs; [ tailscale ];
+        services.tailscale.enable = true;
       };
 
       homeconf = { pkgs, home-manager, ... }: {
@@ -39,7 +42,8 @@
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "bkup";
         home-manager.users."${user.name}" = {
-          programs = import ./programs.nix { inherit pkgs; };
+          programs = import ./programs.nix { inherit pkgs secrets; };
+          home.packages = [ pkgs.git-crypt ];
           home.stateVersion = "23.05";
         };
       };
