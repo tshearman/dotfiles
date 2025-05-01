@@ -3,9 +3,7 @@
 {
   enable = true;
   onActivation.cleanup = "uninstall";
-  brews = [
-    "coreutils"
-  ];
+  brews = [ "coreutils" ];
   casks = [
     "alfred"
     "bartender"

@@ -38,18 +38,18 @@
       static-only = false;
       tilesize = 32;
       # persistent-apps = [
-        # {
-          # app = "/Applications/Utilities/Terminal.app";
-        # }
-        # {
-          # app = "/Users/toby/Applications/Home Manager Trampolines/Visual Studio Code.app";
-        # }
-        # {
-          # app = "/Applications/Safari.app";
-        # }
-        # {
-          # app = "/Applications/Messages.app";
-        # }
+      # {
+      # app = "/Applications/Utilities/Terminal.app";
+      # }
+      # {
+      # app = "/Users/toby/Applications/Home Manager Trampolines/Visual Studio Code.app";
+      # }
+      # {
+      # app = "/Applications/Safari.app";
+      # }
+      # {
+      # app = "/Applications/Messages.app";
+      # }
       # ];
     };
 
@@ -63,8 +63,8 @@
     };
 
     NSGlobalDomain = {
-    #   AppleEnableMouseSwipeNavigateWithScrolls = true;
-    #   AppleEnableSwipeNavigateWithScrolls = true;
+      # AppleEnableMouseSwipeNavigateWithScrolls = true;
+      # AppleEnableSwipeNavigateWithScrolls = true;
       AppleFontSmoothing = 2;
       AppleICUForce24HourTime = true;
       AppleInterfaceStyle = "Dark";

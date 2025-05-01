@@ -1,9 +1,6 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   fish.enable = true;
-  kitty = {
-    enable = true;
-  };
+  kitty = { enable = true; };
   ssh = {
     enable = true;
     addKeysToAgent = "yes";
@@ -16,18 +13,19 @@
   };
   home-manager.enable = true;
   vscode = {
-  enable = true;
-  profiles.default = {
-    enableExtensionUpdateCheck = true;
-    enableUpdateCheck = true;
-    extensions = with pkgs.vscode-extensions;
-      [
+    enable = true;
+    profiles.default = {
+      enableExtensionUpdateCheck = true;
+      enableUpdateCheck = true;
+      extensions = with pkgs.vscode-extensions; [
         bbenoist.nix
         davidanson.vscode-markdownlint
         eamodio.gitlens
         esbenp.prettier-vscode
         mechatroner.rainbow-csv
         mhutchie.git-graph
+        brettm12345.nixfmt-vscode
+        jnoortheen.nix-ide
       ];
       userSettings = {
         # This property will be used to generate settings.json:
