@@ -14,9 +14,8 @@
       user.name = "toby";
       unfree-packages =
         [ "discord" "obsidian" "vscode" "vscode-extension-mhutchie-git-graph" ];
+      # users.extraGroups.docker.members = [ user.name ];
       darwinconf = { pkgs, lib, ... }: {
-        # List packages installed in system profile. To search by name, run:
-        # $ nix-env -qaP | grep wget
 
         # Necessary for using flakes on this system.
         nix.settings.experimental-features = "nix-command flakes";
@@ -27,24 +26,7 @@
           builtins.elem (lib.getName pkg) unfree-packages;
         nix.enable = false;
         users.knownUsers = [ user.name ];
-        users.users."${user.name}" = {
-          name = user.name;
-          home = "/Users/${user.name}";
-          packages = with pkgs; [
-            btop
-            discord
-            git
-            just
-            kitty
-            lazygit
-            nixfmt
-            obsidian
-            psutils
-            tldr
-          ];
-          uid = 501;
-          shell = pkgs.fish;
-        };
+        users.users."${user.name}" = import ./user.nix { inherit pkgs user; };
         programs.fish.enable = true;
         system = import ./macos.nix { inherit pkgs user; };
         homebrew = import ./homebrew.nix { inherit pkgs; };
