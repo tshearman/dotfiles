@@ -1,7 +1,13 @@
-{ pkgs, ... }: {
+{ pkgs, secrets, ... }: {
   fish = {
     enable = true;
     shellAliases = { };
+  };
+  fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
   };
   kitty = { enable = true; };
   ssh = {
@@ -19,6 +25,13 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
     enableFishIntegration = true;
+  };
+  pet = {
+    enable = true;
+    settings = {
+      Gist.access_token = secrets.git-gist-key;
+      Gist.auto_sync = true;
+    };
   };
   home-manager.enable = true;
   vscode = {

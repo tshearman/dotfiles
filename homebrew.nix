@@ -7,10 +7,10 @@
   casks = [
     "alfred"
     "bartender"
-    # "drivethrurpg"
+    "drivethrurpg"
+    "spotify"
     # "font-fira-code"
     # "obsidian"
-    # "spotify"
     # "zotero"
   ];
 }
