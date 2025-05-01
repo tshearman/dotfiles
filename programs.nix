@@ -4,6 +4,16 @@
   kitty = {
     enable = true;
   };
+  ssh = {
+    enable = true;
+    addKeysToAgent = "yes";
+    extraConfig = ''
+      IgnoreUnknown UseKeychain
+      AddKeysToAgent yes
+      UseKeychain yes
+      IdentityFile ~/.ssh/id_ed25519
+    '';
+  };
   home-manager.enable = true;
   vscode = {
   enable = true;
