@@ -1,5 +1,8 @@
 { pkgs, ... }: {
-  fish.enable = true;
+  fish = {
+    enable = true;
+    shellAliases = { };
+  };
   kitty = { enable = true; };
   ssh = {
     enable = true;
@@ -10,6 +13,12 @@
       UseKeychain yes
       IdentityFile ~/.ssh/id_ed25519
     '';
+  };
+  autojump = {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
   };
   home-manager.enable = true;
   vscode = {
