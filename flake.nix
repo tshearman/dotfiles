@@ -17,7 +17,6 @@
       # users.extraGroups.docker.members = [ user.name ];
       secrets = import ./secrets.nix { };
       darwinconf = { pkgs, lib, ... }: {
-
         # Necessary for using flakes on this system.
         nix.settings.experimental-features = "nix-command flakes";
 
@@ -27,14 +26,15 @@
           builtins.elem (lib.getName pkg) unfree-packages;
         nix.enable = false;
         users.knownUsers = [ user.name ];
-        users.users."${user.name}" = import ./user.nix { inherit pkgs user; };
         programs.fish.enable = true;
-        system = import ./macos.nix { inherit pkgs user; };
-        homebrew = import ./homebrew.nix { inherit pkgs; };
         time.timeZone = "America/Detroit";
         security.pam.services.sudo_local.touchIdAuth = true;
         environment.systemPackages = with pkgs; [ tailscale ];
         services.tailscale.enable = true;
+
+        users.users."${user.name}" = import ./user.nix { inherit pkgs user; };
+        system = import ./macos.nix { inherit pkgs user; };
+        homebrew = import ./homebrew.nix { inherit pkgs; };
       };
 
       homeconf = { pkgs, home-manager, ... }: {
@@ -42,8 +42,8 @@
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "bkup";
         home-manager.users."${user.name}" = {
-          programs = import ./programs.nix { inherit pkgs secrets; };
-          home.packages = [ pkgs.git-crypt ];
+          programs = import ./home/programs.nix { inherit pkgs secrets; };
+          home.packages = import ./home/packages.nix { inherit pkgs; };
           home.stateVersion = "23.05";
         };
       };
