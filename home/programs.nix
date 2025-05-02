@@ -1,21 +1,89 @@
-{ pkgs, secrets, ... }: {
+{ pkgs, user, secrets, ... }: {
+  autojump = {
+    enable = true;
+    enableBashIntegration = true;
+    enableFishIntegration = true;
+    enableZshIntegration = true;
+  };
+
   fish = {
     enable = true;
-    shellAliases = { };
+    shellAliases = { lgit = "lazygit"; };
   };
+
   fzf = {
     enable = true;
     enableBashIntegration = true;
-    enableZshIntegration = true;
     enableFishIntegration = true;
+    enableZshIntegration = true;
   };
+
+  git = {
+    enable = true;
+    difftastic.enable = true;
+    aliases = {
+      ba = "branch -a";
+      bd = "branch -D";
+      br = "branch";
+      c = "commit";
+      cam = "commit -am";
+      cm = "commit -m";
+      co = "checkout";
+      cob = "checkout -b";
+      cp = "commit -p";
+      d = "diff";
+      fix = "rebase --exec 'git commit --amend --no-edit -S' -i origin/develop";
+      l =
+        "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
+      pr = "pull --rebase";
+      s = "status";
+      st = "status";
+      whoops = "reset --hard";
+      wipe = "commit -s";
+    };
+    ignores = [
+      ".cache/"
+      ".DS_Store"
+      ".direnv/"
+      ".idea/"
+      "*.swp"
+      "built-in-stubs.jar"
+      ".elixir_ls/"
+      ".vscode/"
+      "npm-debug.log"
+    ];
+    extraConfig = {
+      core = {
+        editor = "nvim";
+        whitespace = "trailing-space,space-before-tab";
+      };
+      init.defaultBranch = "main";
+      push.autoSetupRemote = true;
+    };
+    lfs = { enable = true; };
+    package = pkgs.gitAndTools.gitFull;
+    userEmail = user.email;
+    userName = user.full-name;
+  };
+
+  home-manager = { enable = true; };
+
   kitty = {
     enable = true;
     font = {
-      name = "Fira Code";
-      size = 16;
+      name = "FiraCodeNerdFontMono";
+      size = 14;
     };
   };
+
+  pet = {
+    enable = true;
+    settings = {
+      Gist.access_token = secrets.git-gist-key;
+      Gist.auto_sync = true;
+    };
+  };
+
   ssh = {
     enable = true;
     addKeysToAgent = "yes";
@@ -26,20 +94,7 @@
       IdentityFile ~/.ssh/id_ed25519
     '';
   };
-  autojump = {
-    enable = true;
-    enableBashIntegration = true;
-    enableZshIntegration = true;
-    enableFishIntegration = true;
-  };
-  pet = {
-    enable = true;
-    settings = {
-      Gist.access_token = secrets.git-gist-key;
-      Gist.auto_sync = true;
-    };
-  };
-  home-manager.enable = true;
+
   vscode = {
     enable = true;
     profiles.default = {

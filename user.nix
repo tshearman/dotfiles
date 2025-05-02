@@ -1,6 +1,6 @@
 { pkgs, user, ... }: {
-  name = user.user-name;
   home = "/Users/${user.user-name}";
-  uid = 501;
+  name = user.user-name;
   shell = pkgs.fish;
+  uid = 501;
 }

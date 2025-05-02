@@ -35,22 +35,8 @@
       show-process-indicators = false;
       show-recents = false;
       showhidden = false;
-      static-only = false;
+      static-only = true;
       tilesize = 32;
-      # persistent-apps = [
-      # {
-      # app = "/Applications/Utilities/Terminal.app";
-      # }
-      # {
-      # app = "/Users/toby/Applications/Home Manager Trampolines/Visual Studio Code.app";
-      # }
-      # {
-      # app = "/Applications/Safari.app";
-      # }
-      # {
-      # app = "/Applications/Messages.app";
-      # }
-      # ];
     };
 
     finder = {
