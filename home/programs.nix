@@ -9,7 +9,13 @@
     enableZshIntegration = true;
     enableFishIntegration = true;
   };
-  kitty = { enable = true; };
+  kitty = {
+    enable = true;
+    font = {
+      name = "Fira Code";
+      size = 16;
+    };
+  };
   ssh = {
     enable = true;
     addKeysToAgent = "yes";

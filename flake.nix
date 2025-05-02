@@ -11,37 +11,37 @@
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }:
     let
-      user.name = "toby";
-      unfree-packages =
-        [ "discord" "obsidian" "vscode" "vscode-extension-mhutchie-git-graph" ];
-      # users.extraGroups.docker.members = [ user.name ];
+      user = import ./me.nix { };
+      host-system = "aarch64-darwin";
       secrets = import ./secrets.nix { };
       darwinconf = { pkgs, lib, ... }: {
-        # Necessary for using flakes on this system.
-        nix.settings.experimental-features = "nix-command flakes";
-
-        # The platform the configuration will be used on.
-        nixpkgs.hostPlatform = "aarch64-darwin";
-        nixpkgs.config.allowUnfreePredicate = pkg:
-          builtins.elem (lib.getName pkg) unfree-packages;
-        nix.enable = false;
-        users.knownUsers = [ user.name ];
-        programs.fish.enable = true;
-        time.timeZone = "America/Detroit";
-        security.pam.services.sudo_local.touchIdAuth = true;
         environment.systemPackages = with pkgs; [ tailscale ];
-        services.tailscale.enable = true;
-
-        users.users."${user.name}" = import ./user.nix { inherit pkgs user; };
-        system = import ./macos.nix { inherit pkgs user; };
         homebrew = import ./homebrew.nix { inherit pkgs; };
+        nix.enable = false;
+        nix.settings.experimental-features = "nix-command flakes";
+        nixpkgs.hostPlatform = host-system;
+        nixpkgs.config.allowUnfreePredicate = pkg:
+          builtins.elem (lib.getName pkg) [
+            "discord"
+            "obsidian"
+            "vscode"
+            "vscode-extension-mhutchie-git-graph"
+          ];
+        programs.fish.enable = true;
+        security.pam.services.sudo_local.touchIdAuth = true;
+        services.tailscale.enable = true;
+        system = import ./macos.nix { inherit pkgs user; };
+        time.timeZone = "America/Detroit";
+        users.knownUsers = [ user.user-name ];
+        users.users."${user.user-name}" =
+          import ./user.nix { inherit pkgs user; };
       };
 
       homeconf = { pkgs, home-manager, ... }: {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "bkup";
-        home-manager.users."${user.name}" = {
+        home-manager.users."${user.user-name}" = {
           programs = import ./home/programs.nix { inherit pkgs secrets; };
           home.packages = import ./home/packages.nix { inherit pkgs; };
           home.stateVersion = "23.05";

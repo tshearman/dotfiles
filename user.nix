@@ -1,22 +1,6 @@
 { pkgs, user, ... }: {
-  name = user.name;
-  home = "/Users/${user.name}";
-  packages = with pkgs; [
-    btop
-    discord
-    fd
-    git
-    just
-    kitty
-    lazygit
-    nixfmt
-    obsidian
-    podman
-    podman-compose
-    psutils
-    ripgrep
-    tldr
-  ];
+  name = user.user-name;
+  home = "/Users/${user.user-name}";
   uid = 501;
   shell = pkgs.fish;
 }
