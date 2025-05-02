@@ -10,7 +10,7 @@
   defaults = {
 
     screencapture = {
-      location = "/Users/${user.name}/Documents/Screenshots";
+      location = "/Users/${user.user-name}/Documents/Screenshots";
       disable-shadow = true;
       target = "clipboard";
     };
