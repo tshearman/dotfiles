@@ -58,6 +58,9 @@ Edit [me.nix](me.nix) with your information:
 
 #### Set up secrets (optional)
 
+#todo add Xcode and home-brew install script
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
 This repo uses git-crypt to encrypt [secrets.nix](secrets.nix). For your first setup:
 
 1. Install git-crypt: `brew install git-crypt` or it will be installed via Nix

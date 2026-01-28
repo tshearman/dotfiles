@@ -1,4 +1,10 @@
-{ pkgs, user, secrets, ... }: {
+{
+  pkgs,
+  user,
+  secrets,
+  ...
+}:
+{
   autojump = {
     enable = true;
     enableBashIntegration = true;
@@ -8,32 +14,29 @@
 
   fish = {
     enable = true;
-    shellAliases = { lgit = "lazygit"; };
+    shellAliases = {
+      lgit = "lazygit";
+    };
     shellInit = ''
-    export QMK_HOME='~/qmk_firmware'
-    fish_add_path "/opt/homebrew/bin"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+      fish_add_path "/opt/homebrew/bin"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
 
-    pyenv init - | source
-    pyenv virtualenv-init - | source
+      pyenv init - | source
+      pyenv virtualenv-init - | source
 
-    direnv hook fish | source
-  '';
+    '';
   };
 
   zsh = {
     enable = true;
-    shellAliases = { lgit = "lazygit"; };
-    initExtra = ''
-    export QMK_HOME='~/qmk_firmware'
-    export PATH="/opt/homebrew/bin:$PATH"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-
-    eval "$(direnv hook zsh)"
-  '';
+    shellAliases = {
+      lgit = "lazygit";
+      nxs = "sudo darwin-rebuild switch --flake ~/.config/nix";
+    };
+    initContent = ''
+      export PATH="/opt/homebrew/bin:$PATH"
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
   };
 
   fzf = {
@@ -61,8 +64,7 @@
       cp = "commit -p";
       d = "diff";
       fix = "rebase --exec 'git commit --amend --no-edit -S' -i origin/develop";
-      l =
-        "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
+      l = "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
       pr = "pull --rebase";
       s = "status";
       st = "status";
@@ -80,26 +82,22 @@
       ".vscode/"
       "npm-debug.log"
     ];
-    
+
     settings.core = {
       editor = "nvim";
       whitespace = "trailing-space,space-before-tab";
     };
     settings.init.defaultBranch = "main";
     settings.push.autoSetupRemote = true;
-    lfs = { enable = true; };
+    lfs = {
+      enable = true;
+    };
     settings.user.email = user.email;
     settings.user.name = user.full-name;
   };
 
-  home-manager = { enable = true; };
-
-  kitty = {
+  home-manager = {
     enable = true;
-    font = {
-      name = "FiraCodeNerdFontMono";
-      size = 14;
-    };
   };
 
   pet = {
@@ -118,5 +116,27 @@
       UseKeychain yes
       IdentityFile ~/.ssh/id_ed25519
     '';
+  };
+
+  # https://davi.sh/blog/2024/11/nix-vscode/
+  vscode = {
+    enable = true;
+    userSettings = {
+      # https://code.visualstudio.com/docs/getstarted/settings#_settingsjson
+      "editor.formatOnSave" = true;
+      "chat.commandCenter.enabled" = false;
+    };
+    keybindings = [
+      # https://code.visualstudio.com/docs/getstarted/keybindings#_advanced-customization
+      {
+        key = "shift+cmd+j";
+        command = "workbench.action.focusActiveEditorGroup";
+        when = "terminalFocus";
+      }
+    ];
+    extensions = [
+      pkgs.vscode-marketplace.jnoortheen.nix-ide
+      pkgs.vscode-marketplace.anthropic.claude-code
+    ];
   };
 }
