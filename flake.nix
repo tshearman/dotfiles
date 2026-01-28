@@ -18,21 +18,21 @@
       secrets = import ./secrets.nix { };
 
       darwinconf = { pkgs, lib, ... }: {
-        environment.systemPackages = with pkgs; [ tailscale ];
+        environment.systemPackages = with pkgs; [ tailscale devenv ];
         fonts.packages =
           [ pkgs.nerd-fonts.fira-code pkgs.nerd-fonts.inconsolata ];
         homebrew = import ./homebrew.nix { inherit pkgs; };
         nix.enable = false;
         nix.settings.experimental-features = "nix-command flakes";
+        nix.settings.trusted-users = ["root" "toby"];
         nixpkgs.config.allowUnfreePredicate = pkg:
           builtins.elem (lib.getName pkg) [
             "discord"
             "obsidian"
-            "vscode"
-            "vscode-extension-mhutchie-git-graph"
           ];
         nixpkgs.hostPlatform = host-system;
         programs.fish.enable = true;
+        programs.zsh.enable = true;
         security.pam.services.sudo_local.touchIdAuth = true;
         services.tailscale.enable = true;
         system = import ./macos.nix { inherit pkgs user; };

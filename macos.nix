@@ -1,6 +1,9 @@
 { pkgs, user, ... }:
 
 {
+
+  primaryUser = user.user-name;
+
   configurationRevision = pkgs.rev or pkgs.dirtyRev or null;
 
   stateVersion = 6;
