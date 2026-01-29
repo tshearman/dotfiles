@@ -1,7 +1,7 @@
 { ... }:
 {
   # SSH public key
-  home.file.".ssh/id_ed25519.pub".source = ../../../secrets/id_ed25519.pub;
+  home.file.".ssh/id_ed25519.pub".source = ./id_ed25519.pub;
 
   programs.ssh = {
     enable = true;

@@ -116,10 +116,10 @@
       # "com.apple.springing.delay" = 0.5;
       # "com.apple.springing.enabled" = false;
       "com.apple.swipescrolldirection" = true;
-      "com.apple.trackpad.enableSecondaryClick" = true;
+      # "com.apple.trackpad.enableSecondaryClick" = true;
       "com.apple.trackpad.scaling" = 1.0;
       "com.apple.trackpad.forceClick" = true;
-      "com.apple.trackpad.trackpadCornerClickBehavior" = 1;
+      # "com.apple.trackpad.trackpadCornerClickBehavior" = 1;
     };
 
     SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
@@ -131,7 +131,7 @@
       ActuateDetents = false;
       FirstClickThreshold = 0;
       SecondClickThreshold = 1;
-      # TrackpadCornerSecondaryClick = 2;
+      TrackpadCornerSecondaryClick = 0;
     };
 
     magicmouse.MouseButtonMode = "TwoButton";
