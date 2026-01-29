@@ -10,6 +10,7 @@ let
   ];
   nixTools = with pkgs; [
     nixfmt
+    nixfmt-tree
     nix-direnv
     direnv
   ];

@@ -1,5 +1,5 @@
 keys:
-  - &toby_age age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p
+  - &toby_age age19pg37c2qze8yvklpl3fr55fcn5fsk7hh6w2hyssudmjf3eu0rqpqlnst8c
 
 creation_rules:
   - path_regex: secrets/[^/]+\.yaml$

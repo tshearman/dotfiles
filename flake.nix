@@ -74,13 +74,13 @@
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "bkup";
           home-manager.users."${user.user-name}" = {
-            programs = import ./home/programs.nix { inherit pkgs user config; };
             home.packages = import ./home/packages.nix { inherit pkgs; };
             home.stateVersion = "23.05";
             imports = [
               mac-app-util.homeManagerModules.default
               sops-nix.homeManagerModules.sops
               ./home/sops.nix
+              ./home/programs.nix
             ];
           };
         };
