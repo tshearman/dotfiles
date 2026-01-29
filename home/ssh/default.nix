@@ -1,9 +1,9 @@
 { ... }:
 {
-  # SSH public key (stored in repo, not encrypted)
-  home.file.".ssh/id_ed25519.pub".source = ../secrets/id_ed25519.pub;
+  # SSH public key
+  home.file.".ssh/id_ed25519.pub".source = ../../secrets/id_ed25519.pub;
 
-  ssh = {
+  programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
     matchBlocks."*" = {
