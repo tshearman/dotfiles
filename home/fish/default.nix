@@ -1,6 +1,6 @@
 { ... }:
 let
-  shellAliases = import ../shell-aliases.nix { };
+  shellAliases = import ../shell/aliases.nix { };
 in
 {
   programs.fish = {

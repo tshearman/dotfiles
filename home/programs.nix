@@ -10,16 +10,9 @@ in
     ./fzf
     ./git
     ./pet
+    ./shell
     ./ssh
     ./vscode
     ./zsh
   ];
-
-  home.sessionVariables = {
-    SOPS_AGE_KEY_FILE = config.sops.age.keyFile;
-  };
-
-  programs = {
-
-  };
 }

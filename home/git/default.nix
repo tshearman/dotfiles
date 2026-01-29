@@ -1,5 +1,7 @@
 { ... }:
-
+let
+  user = import ../../me.nix { };
+in
 {
   programs = {
 

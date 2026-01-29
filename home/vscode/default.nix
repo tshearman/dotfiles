@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   # https://davi.sh/blog/2024/11/nix-vscode/
   programs.vscode = {
