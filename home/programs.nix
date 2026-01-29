@@ -6,14 +6,12 @@ in
   # Import individual program modules
   imports = [
     ./pet
+    ./ssh
   ];
 
   home.sessionVariables = {
     SOPS_AGE_KEY_FILE = config.sops.age.keyFile;
   };
-
-  # SSH public key (stored in repo, not encrypted)
-  home.file.".ssh/id_ed25519.pub".source = ../secrets/id_ed25519.pub;
 
   programs = {
     autojump = {
@@ -102,19 +100,6 @@ in
       };
       settings.user.email = user.email;
       settings.user.name = user.full-name;
-    };
-
-    ssh = {
-      enable = true;
-      enableDefaultConfig = false;
-      matchBlocks."*" = {
-        extraOptions = {
-          IgnoreUnknown = "UseKeychain";
-          AddKeysToAgent = "yes";
-          UseKeychain = "yes";
-          IdentityFile = "~/.ssh/id_ed25519";
-        };
-      };
     };
 
     # https://davi.sh/blog/2024/11/nix-vscode/
