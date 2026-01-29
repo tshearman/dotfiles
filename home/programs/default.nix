@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  user = import ../me.nix { };
+  user = import ../../me.nix { };
 in
 {
   # Import individual program modules

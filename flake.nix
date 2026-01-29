@@ -81,7 +81,7 @@
               mac-app-util.homeManagerModules.default
               sops-nix.homeManagerModules.sops
               ./home/sops.nix
-              ./home/programs.nix
+              ./home/programs
             ];
           };
         };
