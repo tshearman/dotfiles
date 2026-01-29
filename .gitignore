@@ -5,22 +5,5 @@ result-*
 # Backup files from home-manager
 *.bkup
 
-# CRITICAL: Never commit these secret files
-secrets.nix
-secrets.nix.backup
-
-# CRITICAL: Never commit the age private key
-# This is your master decryption key
-.config/sops/age/keys.txt
-**/age/keys.txt
-
-# CRITICAL: Never commit unencrypted secrets
-secrets/*.yaml.dec
-secrets/*.json.dec
-secrets/*_plaintext*
-
-# Setup instructions (you can commit this if you want)
-# SOPS_SETUP_INSTRUCTIONS.md
-
 # macOS
 .DS_Store

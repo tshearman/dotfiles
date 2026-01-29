@@ -76,6 +76,7 @@
           home-manager.users."${user.user-name}" = {
             home.packages = import ./home/packages.nix { inherit pkgs; };
             home.stateVersion = "23.05";
+            programs.home-manager.enable = true;
             imports = [
               mac-app-util.homeManagerModules.default
               sops-nix.homeManagerModules.sops

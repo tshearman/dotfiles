@@ -3,6 +3,10 @@ let
   user = import ../me.nix { };
 in
 {
+  # Import individual program modules
+  imports = [
+    ./pet
+  ];
 
   home.sessionVariables = {
     SOPS_AGE_KEY_FILE = config.sops.age.keyFile;
@@ -98,20 +102,6 @@ in
       };
       settings.user.email = user.email;
       settings.user.name = user.full-name;
-    };
-
-    home-manager = {
-      enable = true;
-    };
-
-    pet = {
-      enable = true;
-      settings = {
-        # Note: Gist.access_token is managed by sops-nix
-        # The token is deployed to ~/.secrets/github_gist_token
-        # You may need to configure pet to read from this file or set it manually
-        Gist.auto_sync = true;
-      };
     };
 
     ssh = {

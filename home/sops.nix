@@ -2,7 +2,7 @@
 {
   sops = {
     # Path to the age key file used for decryption
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys";
 
     # Default sops file location
     defaultSopsFile = ../secrets/secrets.yaml;
