@@ -1,9 +1,5 @@
 { pkgs, config, ... }:
-let
-  user = import ../../me.nix { };
-in
 {
-  # Import individual program modules
   imports = [
     ./autojump
     ./fish

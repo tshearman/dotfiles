@@ -10,7 +10,8 @@ This repository contains a complete Nix flake configuration that manages:
 - **Package management**: Development tools, terminal utilities, and applications
 - **User environment**: Shell configuration (Zsh and Fish), git settings, SSH config
 - **Homebrew integration**: GUI applications and tools not available in nixpkgs
-- **Secrets management**: Encrypted secrets using git-crypt
+- **Secrets management**: Encrypted secrets using sops-nix with age encryption
+- **Modular configuration**: Each program configured in its own module for maintainability
 
 ## Prerequisites
 
@@ -56,22 +57,30 @@ Edit [me.nix](me.nix) with your information:
 }
 ```
 
-#### Set up secrets (optional)
+#### Set up secrets (required for SSH and pet)
 
-#todo add Xcode and home-brew install script
-# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+This repo uses **sops-nix** with **age encryption** to manage secrets. See [SOPS_SETUP_INSTRUCTIONS.md](SOPS_SETUP_INSTRUCTIONS.md) for detailed setup.
 
-This repo uses git-crypt to encrypt [secrets.nix](secrets.nix). For your first setup:
+Quick setup:
+1. Generate an age key:
+   ```bash
+   mkdir -p ~/.config/sops/age
+   age-keygen -o ~/.config/sops/age/keys
+   ```
+2. Add your public key to [.sops.yaml](.sops.yaml)
+3. Create encrypted secrets file:
+   ```bash
+   sops secrets/secrets.yaml
+   ```
 
-1. Install git-crypt: `brew install git-crypt` or it will be installed via Nix
-2. Either:
-   - Initialize your own secrets: `git-crypt init`
-   - Or create a plain [secrets.nix](secrets.nix) file:
-     ```nix
-     { ... }: {
-       git-gist-key = "your-github-gist-token";
-     }
-     ```
+The secrets file should contain:
+```yaml
+ssh_private_key: |
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  your-private-key-here
+  -----END OPENSSH PRIVATE KEY-----
+github_gist_token: ghp_your_token_here
+```
 
 #### Verify your user ID
 
@@ -111,25 +120,40 @@ exec zsh
 .
 ├── flake.nix              # Main flake configuration and system modules
 ├── flake.lock             # Locked dependency versions
+├── .sops.yaml             # SOPS configuration for secrets management
 ├── me.nix                 # User information (email, name, username)
 ├── user.nix               # User account configuration
-├── secrets.nix            # Encrypted secrets (git-crypt)
 ├── macos.nix              # macOS system preferences and settings
-├── homebrew.nix           # Homebrew packages, casks, and taps
+├── secrets/
+│   ├── id_ed25519.pub     # SSH public key (not encrypted)
+│   └── secrets.yaml       # Encrypted secrets (SSH key, tokens)
 └── home/
     ├── packages.nix       # User packages installed via Nix
-    ├── programs.nix       # Program configurations (git, zsh, fish, etc.)
-    ├── scripts.fish       # Custom Fish shell scripts
-    └── scripts.zsh        # Custom Zsh shell scripts
+    ├── programs/          # Modular program configurations
+    │   ├── default.nix    # Imports all program modules
+    │   ├── autojump/
+    │   ├── fish/
+    │   ├── fzf/
+    │   ├── git/
+    │   ├── pet/           # Snippet manager with GitHub Gist sync
+    │   ├── ssh/
+    │   ├── vscode/
+    │   └── zsh/
+    ├── shell-aliases.nix  # Shared shell aliases across zsh/fish
+    ├── sops.nix           # SOPS/secrets configuration
+    └── homebrew.nix       # Homebrew packages, casks, and taps
 ```
 
 ### Key Files Explained
 
 - **[flake.nix](flake.nix)**: Entry point that orchestrates all configurations and defines the system build
+- **[.sops.yaml](.sops.yaml)**: SOPS configuration defining encryption keys and rules
 - **[macos.nix](macos.nix)**: System-wide macOS settings (dock, finder, keyboard, trackpad, etc.)
-- **[homebrew.nix](homebrew.nix)**: GUI applications and tools installed via Homebrew
 - **[home/packages.nix](home/packages.nix)**: CLI tools and applications installed via Nix
-- **[home/programs.nix](home/programs.nix)**: Configuration for programs like git, zsh, fish, kitty, ssh
+- **[home/programs/](home/programs/)**: Modular program configurations, each in its own directory
+- **[home/shell-aliases.nix](home/shell-aliases.nix)**: Shared shell aliases used by zsh and fish
+- **[home/sops.nix](home/sops.nix)**: Secrets decryption configuration
+- **[home/homebrew.nix](home/homebrew.nix)**: GUI applications and tools installed via Homebrew
 
 ## Making Changes
 
@@ -163,20 +187,29 @@ Edit [macos.nix](macos.nix) to change system preferences. See the [nix-darwin op
 
 ### Updating Program Configurations
 
-Edit [home/programs.nix](home/programs.nix) to configure programs. See the [Home Manager options search](https://mipmip.github.io/home-manager-option-search/) for available options.
+Each program has its own module in [home/programs/](home/programs/). For example:
+- **Git**: Edit [home/programs/git/default.nix](home/programs/git/default.nix)
+- **Zsh**: Edit [home/programs/zsh/default.nix](home/programs/zsh/default.nix)
+- **VSCode**: Edit [home/programs/vscode/default.nix](home/programs/vscode/default.nix)
+
+Shared shell aliases are in [home/shell-aliases.nix](home/shell-aliases.nix).
+
+See the [Home Manager options search](https://mipmip.github.io/home-manager-option-search/) for available options.
 
 ### Applying Changes
 
-After making any changes:
+After making any changes, use the convenient `nxs` alias:
+
+```bash
+nxs
+```
+
+This runs `sudo darwin-rebuild switch --flake ~/.config/nix`.
+
+Or run the full command:
 
 ```bash
 darwin-rebuild switch --flake ~/.config/nix#macbook
-```
-
-Or use the shorthand (after first install):
-
-```bash
-darwin-rebuild switch --flake ~/.config/nix
 ```
 
 ## Updating Dependencies
@@ -202,11 +235,20 @@ darwin-rebuild switch --flake ~/.config/nix#macbook
 ## Useful Commands
 
 ```bash
-# Rebuild and switch to new configuration
+# Rebuild and switch (using alias)
+nxs
+
+# Or the full command
 darwin-rebuild switch --flake ~/.config/nix#macbook
 
 # Build without switching (test before applying)
 darwin-rebuild build --flake ~/.config/nix#macbook
+
+# Format all Nix files
+treefmt
+
+# Edit encrypted secrets
+sops secrets/secrets.yaml
 
 # Check what will change without building
 nix flake check
@@ -225,10 +267,10 @@ ls -lh /nix/var/nix/profiles/system-*-link
 
 ### Included Tools
 
-**Development**: git-crypt, lazygit, podman, uv, gcc-arm-embedded
-**Terminal**: btop, fd, just, ripgrep, tldr, autojump, fzf
-**Nix**: nixfmt, nix-direnv
-**Applications**: Discord, Obsidian, Kitty terminal
+**Development**: age, sops, lazygit
+**Terminal**: btop, fd, just, ripgrep, tldr, autojump, fzf, pet (snippet manager)
+**Nix**: nixfmt, nixfmt-tree (treefmt), nix-direnv, direnv
+**Applications**: Discord, Obsidian, VSCode with Claude Code and Nix IDE extensions
 
 ### Shell Configuration
 
@@ -241,11 +283,21 @@ ls -lh /nix/var/nix/profiles/system-*-link
 
 ### Git Configuration
 
-Pre-configured with:
-- Useful aliases ([programs.nix:37-56](home/programs.nix#L37-L56))
+Pre-configured with ([home/programs/git/](home/programs/git/)):
+- Useful aliases (ba, co, cob, cm, cam, s, l, pr, whoops, etc.)
 - Difftastic for better diffs
 - Git LFS support
 - Sensible global gitignore
+- Auto-setup remote branches on push
+
+### Secrets Management
+
+Uses **sops-nix** with **age encryption**:
+- SSH private keys automatically decrypted to `~/.ssh/id_ed25519`
+- GitHub Gist token for pet snippet sync via environment variable
+- Secrets stored encrypted in git at [secrets/secrets.yaml](secrets/secrets.yaml)
+- Private age key at `~/.config/sops/age/keys` (never committed)
+- Configuration in [.sops.yaml](.sops.yaml) and [home/sops.nix](home/sops.nix)
 
 ### macOS Preferences
 
@@ -298,23 +350,52 @@ Or fully restart your terminal. You can also switch to fish by running `exec fis
 - [Determinate Systems Docs](https://docs.determinate.systems/)
 - [Nix Package Search](https://search.nixos.org/packages)
 
+## Architecture Decisions
+
+### Modular Program Configuration
+
+Each program lives in its own module under [home/programs/](home/programs/):
+- **Maintainability**: Easier to find and update specific program configs
+- **Reusability**: Modules can be easily shared or copied to other setups
+- **Clarity**: Each module has a focused purpose
+- **Scalability**: Adding new programs doesn't clutter existing files
+
+### SOPS-nix for Secrets
+
+Switched from git-crypt to sops-nix because:
+- **Better integration**: Native Nix support with proper activation-time decryption
+- **Multiple recipients**: Can easily add team members' keys
+- **Granular encryption**: Can encrypt specific fields in YAML, not just whole files
+- **Age encryption**: Modern, simple encryption with smaller keys than GPG
+
+### Shared Shell Aliases
+
+[home/shell-aliases.nix](home/shell-aliases.nix) provides:
+- **DRY principle**: Define aliases once, use in multiple shells
+- **Consistency**: Same aliases work in zsh and fish
+- **Extensibility**: Easy to add shell-specific aliases when needed
+
 ## Philosophy
 
 This configuration follows these principles:
 
 1. **Declarative**: Everything is defined in code
 2. **Reproducible**: Same configuration produces same result
-3. **Modular**: Organized into logical files
+3. **Modular**: Organized into logical, single-purpose modules
 4. **Documented**: Comments explain non-obvious choices
 5. **Practical**: Balances purity with pragmatism (e.g., Homebrew for GUI apps)
+6. **Secure**: Secrets properly encrypted and managed with sops-nix
 
 ## Contributing
 
 When making changes:
-1. Test locally with `darwin-rebuild build` first
-2. Commit with descriptive messages
-3. Keep user-specific info in [me.nix](me.nix) and [secrets.nix](secrets.nix)
-4. Document significant changes
+1. Format code with `treefmt` before committing
+2. Test locally with `darwin-rebuild build` first
+3. Keep user-specific info in [me.nix](me.nix)
+4. Keep secrets in [secrets/secrets.yaml](secrets/secrets.yaml) (encrypted)
+5. New programs should go in their own module under [home/programs/](home/programs/)
+6. Commit with descriptive messages using the conventional commits format
+7. Document significant changes in this README
 
 ## License
 
