@@ -3,22 +3,22 @@
 {
   enable = true;
   onActivation.cleanup = "uninstall";
-  taps = [ 
-    # "osx-cross/avr" 
-    # "FLEWID-AB/homebrew-pdfjam" 
+  taps = [
   ];
-  brews = [ 
+  brews = [
     # "pyenv-virtualenv"
     # "pyenv"
-    # "direnv"
   ];
   casks = [
+    "1password"
+    "1password-cli"
     # "alfred"
     # "balenaetcher"
     # "bartender"
     # "drivethrurpg"
+    "discord"
     # "makemkv"
     # "qmk-toolbox"
-    # "spotify"
+    "spotify"
   ];
 }

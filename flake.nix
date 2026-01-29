@@ -9,6 +9,8 @@
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs =
@@ -19,12 +21,12 @@
       home-manager,
       mac-app-util,
       nix-vscode-extensions,
+      sops-nix,
       ...
     }:
     let
       user = import ./me.nix { };
       host-system = "aarch64-darwin";
-      secrets = import ./secrets.nix { };
 
       darwinconf =
         { pkgs, lib, ... }:
@@ -72,10 +74,14 @@
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "bkup";
           home-manager.users."${user.user-name}" = {
-            programs = import ./home/programs.nix { inherit pkgs user secrets; };
+            programs = import ./home/programs.nix { inherit pkgs user config; };
             home.packages = import ./home/packages.nix { inherit pkgs; };
             home.stateVersion = "23.05";
-            imports = [ mac-app-util.homeManagerModules.default ];
+            imports = [
+              mac-app-util.homeManagerModules.default
+              sops-nix.homeManagerModules.sops
+              ./home/sops.nix
+            ];
           };
         };
 

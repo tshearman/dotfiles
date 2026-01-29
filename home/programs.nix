@@ -1,7 +1,7 @@
 {
   pkgs,
   user,
-  secrets,
+  config,
   ...
 }:
 {
@@ -20,10 +20,6 @@
     shellInit = ''
       fish_add_path "/opt/homebrew/bin"
       eval "$(/opt/homebrew/bin/brew shellenv)"
-
-      pyenv init - | source
-      pyenv virtualenv-init - | source
-
     '';
   };
 
@@ -54,7 +50,8 @@
     enable = true;
     settings.alias = {
       ba = "branch -a";
-      bd = "branch -D";
+      bD = "branch -D";
+      b = "branch";
       br = "branch";
       c = "commit";
       cam = "commit -am";
@@ -103,40 +100,49 @@
   pet = {
     enable = true;
     settings = {
-      Gist.access_token = secrets.git-gist-key;
+      # Note: Gist.access_token is managed by sops-nix
+      # The token is deployed to ~/.config/pet/.github_token
+      # You may need to configure pet to read from this file or set it manually
       Gist.auto_sync = true;
     };
   };
 
   ssh = {
     enable = true;
-    extraConfig = ''
-      IgnoreUnknown UseKeychain
-      AddKeysToAgent yes
-      UseKeychain yes
-      IdentityFile ~/.ssh/id_ed25519
-    '';
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      extraOptions = {
+        IgnoreUnknown = "UseKeychain";
+        AddKeysToAgent = "yes";
+        UseKeychain = "yes";
+        IdentityFile = "~/.ssh/id_ed25519";
+      };
+    };
   };
 
   # https://davi.sh/blog/2024/11/nix-vscode/
   vscode = {
     enable = true;
-    userSettings = {
-      # https://code.visualstudio.com/docs/getstarted/settings#_settingsjson
-      "editor.formatOnSave" = true;
-      "chat.commandCenter.enabled" = false;
+    profiles.default = {
+      userSettings = {
+        # https://code.visualstudio.com/docs/getstarted/settings#_settingsjson
+        "editor.formatOnSave" = true;
+        "chat.commandCenter.enabled" = false;
+        "claudeCode.preferredLocation" = "panel";
+        "claudeCode.useCtrlEnterToSend" = true;
+      };
+      keybindings = [
+        # https://code.visualstudio.com/docs/getstarted/keybindings#_advanced-customization
+        {
+          key = "shift+cmd+j";
+          command = "workbench.action.focusActiveEditorGroup";
+          when = "terminalFocus";
+        }
+      ];
+      extensions = [
+        pkgs.vscode-marketplace.jnoortheen.nix-ide
+        pkgs.vscode-marketplace.anthropic.claude-code
+      ];
     };
-    keybindings = [
-      # https://code.visualstudio.com/docs/getstarted/keybindings#_advanced-customization
-      {
-        key = "shift+cmd+j";
-        command = "workbench.action.focusActiveEditorGroup";
-        when = "terminalFocus";
-      }
-    ];
-    extensions = [
-      pkgs.vscode-marketplace.jnoortheen.nix-ide
-      pkgs.vscode-marketplace.anthropic.claude-code
-    ];
   };
 }

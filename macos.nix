@@ -16,6 +16,8 @@
       location = "/Users/${user.user-name}/Documents/Screenshots";
       disable-shadow = true;
       target = "clipboard";
+      show-thumbnail = false;
+      type = "png";
     };
 
     dock = {
@@ -35,11 +37,17 @@
       # mouse-over-hilite-stack = null;
       # mru-spaces = true;
       orientation = "left";
+      # scroll-to-open = true;
       show-process-indicators = false;
       show-recents = false;
       showhidden = false;
       static-only = true;
       tilesize = 32;
+
+      wvous-bl-corner = 1;
+      wvous-br-corner = 1;
+      wvous-tl-corner = 1;
+      wvous-tr-corner = 1;
     };
 
     finder = {
@@ -49,15 +57,26 @@
       _FXShowPosixPathInTitle = true;
       _FXSortFoldersFirst = true;
       CreateDesktop = false;
+      ShowPathbar = true;
+      FXPreferredViewStyle = "Nlsv"; # list view
+      FXRemoveOldTrashItems = true;
     };
+
+    iCal = {
+      "TimeZone support enabled" = true;
+      "first day of week" = "Monday";
+    };
+
+    loginwindow.GuestEnabled = false;
 
     NSGlobalDomain = {
       # AppleEnableMouseSwipeNavigateWithScrolls = true;
       # AppleEnableSwipeNavigateWithScrolls = true;
       AppleFontSmoothing = 2;
-      AppleICUForce24HourTime = true;
+      AppleICUForce24HourTime = false;
       AppleInterfaceStyle = "Dark";
       AppleInterfaceStyleSwitchesAutomatically = false;
+      AppleIconAppearanceTheme = "TintedDark";
       # AppleKeyboardUIMode = 3;
       # AppleMeasurementUnits = "Inches";
       # AppleMetricUnits = 0;
@@ -75,9 +94,10 @@
       NSAutomaticPeriodSubstitutionEnabled = false;
       NSAutomaticQuoteSubstitutionEnabled = false;
       NSAutomaticSpellingCorrectionEnabled = false;
+      NSAutomaticInlinePredictionEnabled = true;
       # NSAutomaticWindowAnimationsEnabled = true;
-      # NSDisableAutomaticTermination = false;
-      # NSDocumentSaveNewDocumentsToCloud = true;
+      NSDisableAutomaticTermination = false;
+      NSDocumentSaveNewDocumentsToCloud = false;
       # NSNavPanelExpandedStateForSaveMode = true;
       # NSNavPanelExpandedStateForSaveMode2 = true;
       # NSScrollAnimationEnabled = true;
@@ -98,7 +118,8 @@
       "com.apple.swipescrolldirection" = true;
       "com.apple.trackpad.enableSecondaryClick" = true;
       "com.apple.trackpad.scaling" = 1.0;
-      # "com.apple.trackpad.trackpadCornerClickBehavior" = null;
+      "com.apple.trackpad.forceClick" = true;
+      "com.apple.trackpad.trackpadCornerClickBehavior" = 1;
     };
 
     SoftwareUpdate.AutomaticallyInstallMacOSUpdates = false;
@@ -107,11 +128,25 @@
       Clicking = true;
       ActuationStrength = 1;
       TrackpadThreeFingerDrag = false;
+      ActuateDetents = false;
+      FirstClickThreshold = 0;
+      SecondClickThreshold = 1;
+      # TrackpadCornerSecondaryClick = 2;
     };
+
+    magicmouse.MouseButtonMode = "TwoButton";
+
+    menuExtraClock = {
+      IsAnalog = true;
+      ShowAMPM = false;
+      ShowSeconds = false;
+    };
+
+    controlcenter.NowPlaying = false;
   };
 
   keyboard = {
     enableKeyMapping = true;
-    remapCapsLockToControl = true;
+    remapCapsLockToEscape = true;
   };
 }
