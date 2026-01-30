@@ -25,56 +25,12 @@
       ...
     }:
     let
-      user = import ./me.nix { };
+      me = import ./system/users/me.nix { };
       host-system = "aarch64-darwin";
 
-      darwinconf =
-        { pkgs, lib, ... }:
-        {
-          environment.systemPackages = with pkgs; [
-            tailscale
-            devenv
-          ];
-          fonts.packages = [
-            pkgs.nerd-fonts.fira-code
-            pkgs.nerd-fonts.inconsolata
-            pkgs.nerd-fonts.jetbrains-mono
-            pkgs.iosevka
-          ];
-          homebrew = import ./home/homebrew.nix { inherit pkgs; };
-          nix.enable = false;
-          nix.settings.experimental-features = "nix-command flakes";
-          nix.settings.trusted-users = [
-            "root"
-            "toby"
-          ];
-          nixpkgs.config.allowUnfreePredicate =
-            pkg:
-            builtins.elem (lib.getName pkg) [
-              "discord"
-              "obsidian"
-              "vscode"
-              "vscode-extension-anthropic-claude-code"
-              "claude-code"
-            ];
-          nixpkgs.hostPlatform = host-system;
-          nixpkgs.overlays = [ nix-vscode-extensions.overlays.default ];
-          programs.fish.enable = true;
-          programs.zsh.enable = true;
-          security.pam.services.sudo_local.touchIdAuth = true;
-          services.tailscale.enable = true;
-          system = import ./macos.nix { inherit pkgs user; };
-          time.timeZone = "America/Detroit";
-          users.knownUsers = [ user.user-name ];
-          users.users."${user.user-name}" = import ./user.nix { inherit pkgs user; };
-        };
-
-      mac-modules = [
-        mac-app-util.darwinModules.default
-        darwinconf
-        home-manager.darwinModules.home-manager
-        (import ./base/home-manager.nix { inherit user mac-app-util sops-nix; })
-      ];
+      mac-modules = import ./system/macos {
+        inherit me host-system home-manager mac-app-util nix-vscode-extensions sops-nix;
+      };
 
     in
     {

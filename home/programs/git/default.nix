@@ -1,6 +1,6 @@
 { ... }:
 let
-  user = import ../../../me.nix { };
+  user = import ../../../system/users/me.nix { };
 in
 {
   programs = {

@@ -1,8 +1,8 @@
-{ pkgs, user, ... }:
+{ pkgs, me, ... }:
 
 {
 
-  primaryUser = user.user-name;
+  primaryUser = me.user-name;
 
   configurationRevision = pkgs.rev or pkgs.dirtyRev or null;
 
@@ -13,7 +13,7 @@
   defaults = {
 
     screencapture = {
-      location = "/Users/${user.user-name}/Documents/Screenshots";
+      location = "/Users/${me.user-name}/Documents/Screenshots";
       disable-shadow = true;
       target = "clipboard";
       show-thumbnail = false;

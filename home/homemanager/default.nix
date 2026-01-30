@@ -1,22 +1,21 @@
 {
-  user,
-  mac-app-util,
+  me,
   sops-nix,
+  extraImports ? [ ],
 }:
 { pkgs, ... }:
 {
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.backupFileExtension = "bkup";
-  home-manager.users."${user.user-name}" = {
-    home.packages = import ../home/packages.nix { inherit pkgs; };
+  home-manager.users."${me.user-name}" = {
+    home.packages = import ../packages.nix { inherit pkgs; };
     home.stateVersion = "23.05";
     programs.home-manager.enable = true;
     imports = [
-      mac-app-util.homeManagerModules.default
       sops-nix.homeManagerModules.sops
-      ../home/sops.nix
-      ../home/programs
-    ];
+      ../sops.nix
+      ../programs
+    ] ++ extraImports;
   };
 }
