@@ -38,6 +38,8 @@
           fonts.packages = [
             pkgs.nerd-fonts.fira-code
             pkgs.nerd-fonts.inconsolata
+            pkgs.nerd-fonts.jetbrains-mono
+            pkgs.iosevka
           ];
           homebrew = import ./home/homebrew.nix { inherit pkgs; };
           nix.enable = false;
@@ -67,30 +69,11 @@
           users.users."${user.user-name}" = import ./user.nix { inherit pkgs user; };
         };
 
-      homeconf =
-        { pkgs, home-manager, ... }:
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "bkup";
-          home-manager.users."${user.user-name}" = {
-            home.packages = import ./home/packages.nix { inherit pkgs; };
-            home.stateVersion = "23.05";
-            programs.home-manager.enable = true;
-            imports = [
-              mac-app-util.homeManagerModules.default
-              sops-nix.homeManagerModules.sops
-              ./home/sops.nix
-              ./home/programs
-            ];
-          };
-        };
-
       mac-modules = [
         mac-app-util.darwinModules.default
         darwinconf
         home-manager.darwinModules.home-manager
-        homeconf
+        (import ./base/home-manager.nix { inherit user mac-app-util sops-nix; })
       ];
 
     in
