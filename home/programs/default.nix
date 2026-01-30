@@ -10,6 +10,7 @@
     ./shell
     ./ssh
     ./starship
+    ./tmux
     ./vscode
     ./zsh
   ];
