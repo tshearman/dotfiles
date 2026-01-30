@@ -1,12 +1,12 @@
 {
   me,
-  host-system,
   home-manager,
   mac-app-util,
   nix-vscode-extensions,
   sops-nix,
 }:
 let
+  host-system = "aarch64-darwin";
   darwinconf =
     { pkgs, ... }:
     {

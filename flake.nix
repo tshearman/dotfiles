@@ -26,10 +26,8 @@
     }:
     let
       me = import ./system/users/me.nix { };
-      host-system = "aarch64-darwin";
-
       mac-modules = import ./system/macos {
-        inherit me host-system home-manager mac-app-util nix-vscode-extensions sops-nix;
+        inherit me home-manager mac-app-util nix-vscode-extensions sops-nix;
       };
 
     in
