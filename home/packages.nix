@@ -7,6 +7,7 @@ let
     age
     lazygit
     sops
+    unrar
   ];
   nixTools = with pkgs; [
     nixfmt

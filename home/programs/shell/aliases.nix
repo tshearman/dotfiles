@@ -5,6 +5,10 @@
     lgit = "lazygit";
     nxs = "sudo darwin-rebuild switch --flake ~/.config/nix";
     nxc = "sudo darwin-rebuild check --flake ~/.config/nix";
+    ll = "ls -lah";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+    g = "git";
   };
 
   # Zsh-specific aliases (or aliases that only make sense in zsh context)

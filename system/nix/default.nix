@@ -1,6 +1,8 @@
 {
   host-system,
   nix-vscode-extensions,
+  nuenv,
+  ...
 }:
 { lib, ... }:
 {
@@ -13,12 +15,16 @@
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
+      "claude-code"
       "discord"
       "obsidian"
-      "vscode"
+      "unrar"
       "vscode-extension-anthropic-claude-code"
-      "claude-code"
+      "vscode"
     ];
   nixpkgs.hostPlatform = host-system;
-  nixpkgs.overlays = [ nix-vscode-extensions.overlays.default ];
+  nixpkgs.overlays = [ 
+    nix-vscode-extensions.overlays.default 
+    nuenv.overlays.default
+  ];
 }

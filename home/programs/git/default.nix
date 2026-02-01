@@ -30,6 +30,8 @@ in
         st = "status";
         whoops = "reset --hard";
         wipe = "commit -s";
+        au = "add . -u";
+        amend = "commit --amend --no-edit";
       };
       ignores = [
         ".cache/"

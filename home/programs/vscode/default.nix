@@ -14,7 +14,7 @@ in
     profiles.default = {
       userSettings = {
         "[nix]" = {
-          "editor.defaultFormatter" = "nixfmt";
+          "editor.defaultFormatter" = "/etc/profiles/per-user/toby/bin/nixfmt";
           "editor.formatOnSave" = true;
         };
         "chat.commandCenter.enabled" = false;
@@ -41,6 +41,7 @@ in
         "terminal.integrated.fontFamily" = terminalFont;
         "workbench.colorTheme" = colorTheme;
         "workbench.iconTheme" = iconTheme;
+        "terminal.integrated.stickyScroll.enabled" = false;
       };
       keybindings = [
         # https://code.visualstudio.com/docs/getstarted/keybindings#_advanced-customization

@@ -17,7 +17,12 @@
       "discord"
       # "makemkv"
       # "qmk-toolbox"
+      "mullvad-browser"
+      "mullvad-vpn"
       "spotify"
     ];
+    masApps = {
+      "1Password for Safari" = 1569813296;
+    };
   };
 }

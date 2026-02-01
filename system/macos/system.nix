@@ -137,7 +137,7 @@
     magicmouse.MouseButtonMode = "TwoButton";
 
     menuExtraClock = {
-      IsAnalog = true;
+      IsAnalog = false;
       ShowAMPM = false;
       ShowSeconds = false;
     };
