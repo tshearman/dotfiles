@@ -1,19 +1,24 @@
 { ... }:
-{
-  # Common shell aliases shared across all shells (zsh, fish, bash, etc.)
-  common = {
-    lgit = "lazygit";
+let
+  nixAliases = {
     nxs = "sudo darwin-rebuild switch --flake ~/.config/nix";
     nxc = "sudo darwin-rebuild check --flake ~/.config/nix";
-    ll = "ls -lah";
-    ".." = "cd ..";
-    "..." = "cd ../..";
-    g = "git";
+    nxu = "nix flake update";
   };
 
-  # Zsh-specific aliases (or aliases that only make sense in zsh context)
-  zsh = { };
+  gitAliases = {
+    g = "git";
+    lgit = "lazygit";
+  };
 
-  # Fish-specific aliases (currently none, but structure is here if needed)
+  navigationAliases = {
+    ll = "ls -lah --color=auto";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+  };
+in
+{
+  common = nixAliases // gitAliases // navigationAliases // { };
+  zsh = { };
   fish = { };
 }

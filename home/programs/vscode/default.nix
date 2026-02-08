@@ -14,11 +14,11 @@ in
     profiles.default = {
       userSettings = {
         "[nix]" = {
-          "editor.defaultFormatter" = "/etc/profiles/per-user/toby/bin/nixfmt";
+          "editor.defaultFormatter" = "jnoortheen.nix-ide";
           "editor.formatOnSave" = true;
         };
         "chat.commandCenter.enabled" = false;
-        "claudeCode.preferredLocation" = "panel";
+        "claudeCode.preferredLocation" = "sidebar";
         "claudeCode.useCtrlEnterToSend" = true;
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
         "editor.fontFamily" = font;
@@ -28,7 +28,6 @@ in
         "editor.wordWrap" = "wordWrapColumn";
         "editor.wordWrapColumn" = 120;
         "explorer.confirmDelete" = false;
-        "rust-analyzer.server.path" = "rust-analyzer";
         "search.exclude" = {
           "**/.direnv" = true;
           "**/.git" = true;

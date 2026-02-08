@@ -3,23 +3,22 @@
   homebrew = {
     enable = true;
     onActivation.cleanup = "uninstall";
-    taps = [
-    ];
-    brews = [
-    ];
+    taps = [ ];
+    brews = [ ];
     casks = [
-      "1password"
       "1password-cli"
+      "1password"
+      "autodesk-fusion"
+      "discord"
+      "mullvad-browser"
+      "mullvad-vpn"
+      "spotify"
       # "alfred"
       # "balenaetcher"
       # "bartender"
       # "drivethrurpg"
-      "discord"
       # "makemkv"
       # "qmk-toolbox"
-      "mullvad-browser"
-      "mullvad-vpn"
-      "spotify"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

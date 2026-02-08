@@ -12,9 +12,11 @@ in
     git = {
       enable = true;
       settings.alias = {
+        amend = "commit --amend --no-edit";
+        au = "add . -u";
+        b = "branch";
         ba = "branch -a";
         bD = "branch -D";
-        b = "branch";
         br = "branch";
         c = "commit";
         cam = "commit -am";
@@ -30,8 +32,6 @@ in
         st = "status";
         whoops = "reset --hard";
         wipe = "commit -s";
-        au = "add . -u";
-        amend = "commit --amend --no-edit";
       };
       ignores = [
         ".cache/"
