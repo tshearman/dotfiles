@@ -57,7 +57,7 @@
         disabled = false;
         impure_msg = "[impure shell](bold red)";
         pure_msg = "[pure shell](bold green)";
-        format = "via [☃️ $state( ($name))](bold blue) ";
+        format = "via [❆ ($name)](bold blue) ";
       };
       "$schema" = "https://starship.rs/config-schema.json";
       terraform = {

@@ -24,8 +24,9 @@ let
     tldr
   ];
   others = with pkgs; [
-    imagemagick
     ghostscript
+    imagemagick
+    inkscape
     texliveFull
   ];
 

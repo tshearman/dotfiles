@@ -53,6 +53,7 @@ in
       extensions = [
         pkgs.vscode-marketplace.jnoortheen.nix-ide
         pkgs.vscode-marketplace.anthropic.claude-code
+        pkgs.vscode-marketplace.mathematic.vscode-pdf
       ];
     };
   };
