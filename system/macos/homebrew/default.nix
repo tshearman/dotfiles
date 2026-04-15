@@ -12,6 +12,7 @@
       "autodesk-fusion"
       "discord"
       # "google-drive"
+      "ollama"
       "mullvad-browser"
       "mullvad-vpn"
       "spotify"
