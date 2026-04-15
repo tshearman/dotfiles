@@ -50,6 +50,7 @@ in
         whitespace = "trailing-space,space-before-tab";
       };
       settings.init.defaultBranch = "main";
+      signing.format = null;
       settings.push.autoSetupRemote = true;
       lfs = {
         enable = true;

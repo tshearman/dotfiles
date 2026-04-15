@@ -7,7 +7,7 @@
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/ae67888ff7ef9dff69b3cf0cc0fbfbcd3a722abe"; # pinned: nixpkgs-unstable before VSCode 1.115.0 glibc.bin bug
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";

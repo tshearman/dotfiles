@@ -54,6 +54,11 @@ in
         pkgs.vscode-marketplace.jnoortheen.nix-ide
         pkgs.vscode-marketplace.anthropic.claude-code
         pkgs.vscode-marketplace.mathematic.vscode-pdf
+        pkgs.vscode-marketplace.ms-python.python
+        pkgs.vscode-marketplace.ms-vscode-remote.remote-ssh
+        pkgs.vscode-marketplace.ms-vscode-remote.remote-ssh-edit
+        pkgs.vscode-marketplace.ms-vscode.remote-explorer
+        pkgs.vscode-marketplace.yzhang.markdown-all-in-one
       ];
     };
   };

@@ -20,11 +20,14 @@
       "obsidian"
       "unrar"
       "vscode-extension-anthropic-claude-code"
+      "vscode-extension-ms-vscode-remote-remote-ssh"
+      "vscode-extension-ms-vscode-remote-remote-ssh-edit"
+      "vscode-extension-ms-vscode-remote-explorer"
       "vscode"
     ];
   nixpkgs.hostPlatform = host-system;
-  nixpkgs.overlays = [ 
-    nix-vscode-extensions.overlays.default 
+  nixpkgs.overlays = [
+    nix-vscode-extensions.overlays.default
     nuenv.overlays.default
   ];
 }

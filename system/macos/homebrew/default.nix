@@ -8,9 +8,10 @@
     casks = [
       "1password-cli"
       "1password"
-      "affinity-publisher"
+      "affinity"
       "autodesk-fusion"
       "discord"
+      # "google-drive"
       "mullvad-browser"
       "mullvad-vpn"
       "spotify"
