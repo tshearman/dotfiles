@@ -16,9 +16,12 @@ let
     direnv
   ];
   term = with pkgs; [
+    bat
     btop
     coreutils
+    eza
     fd
+    jq
     just
     ripgrep
     tldr

@@ -12,13 +12,23 @@ let
   };
 
   navigationAliases = {
-    ll = "ls -lah --color=auto";
+    ll = "eza -lah --icons --git";
+    ls = "eza --icons";
+    tree = "eza --tree --icons";
     ".." = "cd ..";
     "..." = "cd ../..";
   };
+
+  toolAliases = {
+    cat = "bat";
+    grep = "rg";
+    man = "batman";
+    "?" = "tldr";
+    y = "pbcopy";
+  };
 in
 {
-  common = nixAliases // gitAliases // navigationAliases // { };
+  common = nixAliases // gitAliases // navigationAliases // toolAliases;
   zsh = { };
   fish = { };
 }
