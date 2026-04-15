@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 {
   imports = [
-    ./autojump
+    ./zoxide
     ./direnv
     ./fish
     ./fzf

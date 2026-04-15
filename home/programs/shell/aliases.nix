@@ -7,7 +7,7 @@ let
   };
 
   gitAliases = {
-    g = "git";
+    # g = "git";
     lgit = "lazygit";
   };
 
