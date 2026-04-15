@@ -3,7 +3,6 @@
   home-manager,
   mac-app-util,
   nix-vscode-extensions,
-  nuenv,
   sops-nix,
 }:
 let
@@ -23,7 +22,7 @@ in
     inherit me sops-nix;
     extraImports = [ mac-app-util.homeManagerModules.default ];
   })
-  (import ../nix { inherit host-system nix-vscode-extensions nuenv; })
+  (import ../nix { inherit host-system nix-vscode-extensions; })
   ../fonts
   ../locale
   ../services

@@ -1,12 +1,11 @@
 {
   host-system,
   nix-vscode-extensions,
-  nuenv,
   ...
 }:
 { lib, ... }:
 {
-  nix.enable = false;
+  nix.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
   nix.settings.trusted-users = [
     "root"
@@ -28,6 +27,5 @@
   nixpkgs.hostPlatform = host-system;
   nixpkgs.overlays = [
     nix-vscode-extensions.overlays.default
-    nuenv.overlays.default
   ];
 }

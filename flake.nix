@@ -11,10 +11,6 @@
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:Mic92/sops-nix";
-    nuenv = {
-      url = "https://flakehub.com/f/DeterminateSystems/nuenv/0.1.*";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -25,14 +21,13 @@
       home-manager,
       mac-app-util,
       nix-vscode-extensions,
-      nuenv,
       sops-nix,
       ...
     }:
     let
       me = import ./system/users/me.nix { };
       mac-modules = import ./system/macos {
-        inherit me home-manager mac-app-util nix-vscode-extensions nuenv sops-nix;
+        inherit me home-manager mac-app-util nix-vscode-extensions sops-nix;
       };
 
     in
